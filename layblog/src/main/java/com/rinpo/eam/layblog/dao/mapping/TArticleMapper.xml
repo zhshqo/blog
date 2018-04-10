@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rinpo.eam.layblog.dao.TArticleMapper">
+  <resultMap id="BaseResultMap" type="com.rinpo.eam.layblog.model.TArticle">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="CATE_ID" jdbcType="INTEGER" property="cateId" />
+    <result column="COVER" jdbcType="VARCHAR" property="cover" />
+    <result column="SUMMARY" jdbcType="VARCHAR" property="summary" />
+    <result column="AUTHOR_ID" jdbcType="INTEGER" property="authorId" />
+    <result column="POST_TIME" jdbcType="TIMESTAMP" property="postTime" />
+    <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="VIEWS_CNT" jdbcType="INTEGER" property="viewsCnt" />
+    <result column="APPROVE_CNT" jdbcType="INTEGER" property="approveCnt" />
+    <result column="APPRECIABLE" jdbcType="BIT" property="appreciable" />
+    <result column="COMMENTED" jdbcType="BIT" property="commented" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.rinpo.eam.layblog.model.TArticle">
+    <result column="CONTENT" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, TITLE, CATE_ID, COVER, SUMMARY, AUTHOR_ID, POST_TIME, MODIFY_TIME, VIEWS_CNT, 
+    APPROVE_CNT, APPRECIABLE, COMMENTED
+  </sql>
+  <sql id="Blob_Column_List">
+    CONTENT
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.rinpo.eam.layblog.model.TArticleExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.rinpo.eam.layblog.model.TArticleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_article
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_article
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.rinpo.eam.layblog.model.TArticleExample">
+    delete from t_article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.rinpo.eam.layblog.model.TArticle">
+    insert into t_article (ID, TITLE, CATE_ID, 
+      COVER, SUMMARY, AUTHOR_ID, 
+      POST_TIME, MODIFY_TIME, VIEWS_CNT, 
+      APPROVE_CNT, APPRECIABLE, COMMENTED, 
+      CONTENT)
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{cateId,jdbcType=INTEGER}, 
+      #{cover,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER}, 
+      #{postTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{viewsCnt,jdbcType=INTEGER}, 
+      #{approveCnt,jdbcType=INTEGER}, #{appreciable,jdbcType=BIT}, #{commented,jdbcType=BIT}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rinpo.eam.layblog.model.TArticle">
+    insert into t_article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="title != null">
+        TITLE,
+      </if>
+      <if test="cateId != null">
+        CATE_ID,
+      </if>
+      <if test="cover != null">
+        COVER,
+      </if>
+      <if test="summary != null">
+        SUMMARY,
+      </if>
+      <if test="authorId != null">
+        AUTHOR_ID,
+      </if>
+      <if test="postTime != null">
+        POST_TIME,
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME,
+      </if>
+      <if test="viewsCnt != null">
+        VIEWS_CNT,
+      </if>
+      <if test="approveCnt != null">
+        APPROVE_CNT,
+      </if>
+      <if test="appreciable != null">
+        APPRECIABLE,
+      </if>
+      <if test="commented != null">
+        COMMENTED,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cateId != null">
+        #{cateId,jdbcType=INTEGER},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null">
+        #{authorId,jdbcType=INTEGER},
+      </if>
+      <if test="postTime != null">
+        #{postTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="viewsCnt != null">
+        #{viewsCnt,jdbcType=INTEGER},
+      </if>
+      <if test="approveCnt != null">
+        #{approveCnt,jdbcType=INTEGER},
+      </if>
+      <if test="appreciable != null">
+        #{appreciable,jdbcType=BIT},
+      </if>
+      <if test="commented != null">
+        #{commented,jdbcType=BIT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.rinpo.eam.layblog.model.TArticleExample" resultType="java.lang.Long">
+    select count(*) from t_article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_article
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null">
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cateId != null">
+        CATE_ID = #{record.cateId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cover != null">
+        COVER = #{record.cover,jdbcType=VARCHAR},
+      </if>
+      <if test="record.summary != null">
+        SUMMARY = #{record.summary,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorId != null">
+        AUTHOR_ID = #{record.authorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.postTime != null">
+        POST_TIME = #{record.postTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyTime != null">
+        MODIFY_TIME = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.viewsCnt != null">
+        VIEWS_CNT = #{record.viewsCnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.approveCnt != null">
+        APPROVE_CNT = #{record.approveCnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.appreciable != null">
+        APPRECIABLE = #{record.appreciable,jdbcType=BIT},
+      </if>
+      <if test="record.commented != null">
+        COMMENTED = #{record.commented,jdbcType=BIT},
+      </if>
+      <if test="record.content != null">
+        CONTENT = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_article
+    set ID = #{record.id,jdbcType=VARCHAR},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      CATE_ID = #{record.cateId,jdbcType=INTEGER},
+      COVER = #{record.cover,jdbcType=VARCHAR},
+      SUMMARY = #{record.summary,jdbcType=VARCHAR},
+      AUTHOR_ID = #{record.authorId,jdbcType=INTEGER},
+      POST_TIME = #{record.postTime,jdbcType=TIMESTAMP},
+      MODIFY_TIME = #{record.modifyTime,jdbcType=TIMESTAMP},
+      VIEWS_CNT = #{record.viewsCnt,jdbcType=INTEGER},
+      APPROVE_CNT = #{record.approveCnt,jdbcType=INTEGER},
+      APPRECIABLE = #{record.appreciable,jdbcType=BIT},
+      COMMENTED = #{record.commented,jdbcType=BIT},
+      CONTENT = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_article
+    set ID = #{record.id,jdbcType=VARCHAR},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      CATE_ID = #{record.cateId,jdbcType=INTEGER},
+      COVER = #{record.cover,jdbcType=VARCHAR},
+      SUMMARY = #{record.summary,jdbcType=VARCHAR},
+      AUTHOR_ID = #{record.authorId,jdbcType=INTEGER},
+      POST_TIME = #{record.postTime,jdbcType=TIMESTAMP},
+      MODIFY_TIME = #{record.modifyTime,jdbcType=TIMESTAMP},
+      VIEWS_CNT = #{record.viewsCnt,jdbcType=INTEGER},
+      APPROVE_CNT = #{record.approveCnt,jdbcType=INTEGER},
+      APPRECIABLE = #{record.appreciable,jdbcType=BIT},
+      COMMENTED = #{record.commented,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rinpo.eam.layblog.model.TArticle">
+    update t_article
+    <set>
+      <if test="title != null">
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cateId != null">
+        CATE_ID = #{cateId,jdbcType=INTEGER},
+      </if>
+      <if test="cover != null">
+        COVER = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        SUMMARY = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null">
+        AUTHOR_ID = #{authorId,jdbcType=INTEGER},
+      </if>
+      <if test="postTime != null">
+        POST_TIME = #{postTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="viewsCnt != null">
+        VIEWS_CNT = #{viewsCnt,jdbcType=INTEGER},
+      </if>
+      <if test="approveCnt != null">
+        APPROVE_CNT = #{approveCnt,jdbcType=INTEGER},
+      </if>
+      <if test="appreciable != null">
+        APPRECIABLE = #{appreciable,jdbcType=BIT},
+      </if>
+      <if test="commented != null">
+        COMMENTED = #{commented,jdbcType=BIT},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.rinpo.eam.layblog.model.TArticle">
+    update t_article
+    set TITLE = #{title,jdbcType=VARCHAR},
+      CATE_ID = #{cateId,jdbcType=INTEGER},
+      COVER = #{cover,jdbcType=VARCHAR},
+      SUMMARY = #{summary,jdbcType=VARCHAR},
+      AUTHOR_ID = #{authorId,jdbcType=INTEGER},
+      POST_TIME = #{postTime,jdbcType=TIMESTAMP},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      VIEWS_CNT = #{viewsCnt,jdbcType=INTEGER},
+      APPROVE_CNT = #{approveCnt,jdbcType=INTEGER},
+      APPRECIABLE = #{appreciable,jdbcType=BIT},
+      COMMENTED = #{commented,jdbcType=BIT},
+      CONTENT = #{content,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rinpo.eam.layblog.model.TArticle">
+    update t_article
+    set TITLE = #{title,jdbcType=VARCHAR},
+      CATE_ID = #{cateId,jdbcType=INTEGER},
+      COVER = #{cover,jdbcType=VARCHAR},
+      SUMMARY = #{summary,jdbcType=VARCHAR},
+      AUTHOR_ID = #{authorId,jdbcType=INTEGER},
+      POST_TIME = #{postTime,jdbcType=TIMESTAMP},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      VIEWS_CNT = #{viewsCnt,jdbcType=INTEGER},
+      APPROVE_CNT = #{approveCnt,jdbcType=INTEGER},
+      APPRECIABLE = #{appreciable,jdbcType=BIT},
+      COMMENTED = #{commented,jdbcType=BIT}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

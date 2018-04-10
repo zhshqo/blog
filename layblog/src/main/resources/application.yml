@@ -1,0 +1,20 @@
+server.port: 8081 # 配置服务器端口，默认是8080，可以不用配置
+server.session.timeout: 10
+server.tomcat.uri-encoding: UTF-8
+server.tomcat.max-connections: 2000
+server.tomcat.max-threads:  2000
+
+spring.thymeleaf.prefix: classpath:/templates/  # 这个是配置模板路径的，默认就是templates，可不用配置
+spring.thymeleaf.suffix: .html  
+spring.thymeleaf.mode: HTML5  
+spring.thymeleaf.encoding: UTF-8  
+spring.thymeleaf.content-type: text/html    
+spring.thymeleaf.cache: false # 这个开发配置为false，避免改了模板还要重启服务器
+
+spring.cache.type: ehcache
+spring.cache.ehcache.config: classpath:ehcache.xml
+
+web.upload-path: file:f://upload/ # 自定义属性，文件上传路径，注意要以/结尾
+
+spring.mvc.static-path-pattern: /** # 表示所有的访问都经过静态资源路径
+spring.resources.static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,${web.upload-path} # 配置静态资源路径

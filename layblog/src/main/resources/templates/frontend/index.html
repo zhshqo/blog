@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta th:replace="frontend/fragment/style"/>
+    <title th:text="笔记博客"></title>
+</head>
+<body class="animated fadeIn">
+<div id="index-app">
+    <bmy-header :home="current"></bmy-header>
+    <hr class="header-hr">
+    <bmy-block :quote="quote"></bmy-block>
+    <bmy-articles>
+        <bmy-list slot="list"></bmy-list>
+        <bmy-info slot="infoLabel" :su="su"></bmy-info>
+        <bmy-search :sw="sw" slot="search"></bmy-search>
+        <bmy-cate :cates="cates" slot="cate"></bmy-cate>
+        <bmy-random :articles="articles" slot="random"></bmy-random>
+        <bmy-tab :tabs="tabs" slot="tab"></bmy-tab>
+    </bmy-articles>
+    <bmy-footer ></bmy-footer>
+</div>
+<div th:replace="frontend/fragment/script"></div>
+<script th:inline="javascript">
+    BMY.indexVM = new Vue({
+        el: "#index-app",
+        data: {
+            cates: [[${indexVo.cateList}]]
+            , articles: [[${indexVo.randomArticles}]]
+            , tabs: [[${indexVo.tagList}]]
+            , current: true
+            , su: [[${su}]]
+            , quote: {
+                showBlog: true
+                , showSearch: false
+                , showText: true
+                , blogCount: [[${indexVo.blogCount}]]
+                , searchCount: 0
+                , showClock: true
+                , text: "置顶文字"
+            }
+            , sw: BMY.getParam("s") !== undefined ? decodeURIComponent(BMY.getParam("s")) : BMY.getParam("s")
+        },
+        mounted: function () {
+            BMY.stickyIt()
+            BMY.affix = new hcSticky("#affix-side", {
+                stickTo: '#main-body'
+                , innerSticker: '#search-panel'
+                , queries: {980: {disable: true}}
+                , top: 75
+                , onStart: function () {
+                    if (!BMY.sticky()) {
+                        BMY.affix.destroy();
+                    }
+                }
+            })
+        }
+    })
+
+</script>
+
+</body>
+</html>

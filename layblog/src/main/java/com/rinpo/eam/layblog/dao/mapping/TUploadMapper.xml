@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rinpo.eam.layblog.dao.TUploadMapper">
+  <resultMap id="BaseResultMap" type="com.rinpo.eam.layblog.model.TUpload">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="DISK_PATH" jdbcType="VARCHAR" property="diskPath" />
+    <result column="VIRTUAL_PATH" jdbcType="VARCHAR" property="virtualPath" />
+    <result column="UPLOAD" jdbcType="TIMESTAMP" property="upload" />
+    <result column="FILE_TYPE" jdbcType="VARCHAR" property="fileType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, DISK_PATH, VIRTUAL_PATH, UPLOAD, FILE_TYPE
+  </sql>
+  <select id="selectByExample" parameterType="com.rinpo.eam.layblog.model.TUploadExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_upload
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_upload
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_upload
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.rinpo.eam.layblog.model.TUploadExample">
+    delete from t_upload
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.rinpo.eam.layblog.model.TUpload">
+    insert into t_upload (ID, DISK_PATH, VIRTUAL_PATH, 
+      UPLOAD, FILE_TYPE)
+    values (#{id,jdbcType=INTEGER}, #{diskPath,jdbcType=VARCHAR}, #{virtualPath,jdbcType=VARCHAR}, 
+      #{upload,jdbcType=TIMESTAMP}, #{fileType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rinpo.eam.layblog.model.TUpload">
+    insert into t_upload
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="diskPath != null">
+        DISK_PATH,
+      </if>
+      <if test="virtualPath != null">
+        VIRTUAL_PATH,
+      </if>
+      <if test="upload != null">
+        UPLOAD,
+      </if>
+      <if test="fileType != null">
+        FILE_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="diskPath != null">
+        #{diskPath,jdbcType=VARCHAR},
+      </if>
+      <if test="virtualPath != null">
+        #{virtualPath,jdbcType=VARCHAR},
+      </if>
+      <if test="upload != null">
+        #{upload,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.rinpo.eam.layblog.model.TUploadExample" resultType="java.lang.Long">
+    select count(*) from t_upload
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_upload
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.diskPath != null">
+        DISK_PATH = #{record.diskPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.virtualPath != null">
+        VIRTUAL_PATH = #{record.virtualPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.upload != null">
+        UPLOAD = #{record.upload,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fileType != null">
+        FILE_TYPE = #{record.fileType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_upload
+    set ID = #{record.id,jdbcType=INTEGER},
+      DISK_PATH = #{record.diskPath,jdbcType=VARCHAR},
+      VIRTUAL_PATH = #{record.virtualPath,jdbcType=VARCHAR},
+      UPLOAD = #{record.upload,jdbcType=TIMESTAMP},
+      FILE_TYPE = #{record.fileType,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rinpo.eam.layblog.model.TUpload">
+    update t_upload
+    <set>
+      <if test="diskPath != null">
+        DISK_PATH = #{diskPath,jdbcType=VARCHAR},
+      </if>
+      <if test="virtualPath != null">
+        VIRTUAL_PATH = #{virtualPath,jdbcType=VARCHAR},
+      </if>
+      <if test="upload != null">
+        UPLOAD = #{upload,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileType != null">
+        FILE_TYPE = #{fileType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rinpo.eam.layblog.model.TUpload">
+    update t_upload
+    set DISK_PATH = #{diskPath,jdbcType=VARCHAR},
+      VIRTUAL_PATH = #{virtualPath,jdbcType=VARCHAR},
+      UPLOAD = #{upload,jdbcType=TIMESTAMP},
+      FILE_TYPE = #{fileType,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
